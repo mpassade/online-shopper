@@ -11,9 +11,12 @@ const logger = require('morgan');
 require('dotenv').config()
 require('./lib/passport')
 
+const Category = require('./routes/admin/categories/models/Category')
+const {getAllCategories} = require('./routes/admin/categories/utils/getAllCategories')
 
 const userRouter = require('./routes/users/userRoutes');
 const adminRouter = require('./routes/admin/adminRoutes')
+const productRouter = require('./routes/admin/products/productRoutes')
 
 const app = express();
 
@@ -26,6 +29,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(getAllCategories)
 
 app.use(
   session({
@@ -59,7 +64,7 @@ app.use((req, res, next) => {
 
 app.use('/api/users', userRouter);
 app.use('/api/admin', adminRouter);
-
+app.use('/api/products', productRouter)
 
 
 
