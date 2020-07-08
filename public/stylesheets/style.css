@@ -179,3 +179,17 @@ html {
   .my-category{
     margin-bottom: 50px;
   }
+
+  .btn-product {
+    width: 100%;
+  }
+  .single-product {
+    margin-top: 100px;
+  }
+  .caption {
+    padding-top: 40px;
+  }
+  .item-count {
+    border: 1px solid lightGray;
+    font-weight: 400;
+  }

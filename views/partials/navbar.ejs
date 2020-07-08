@@ -34,7 +34,7 @@
               <ul>
                 <% for( let i = 0; i < categories.length; i++ ) { %>
                   <li style="list-style: none;">
-                    <a href="#" class="nav-category-list" style="color: black; text-decoration: none;">
+                    <a href="/api/products/all-products/<%=categories[i]._id%>" class="nav-category-list" style="color: black; text-decoration: none;">
                       <%=categories[i].name%>
                     </a>
                   </li>

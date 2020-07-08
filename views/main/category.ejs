@@ -19,7 +19,7 @@
                     <% for( let i = 0; i < 24; i++ ) { %>
                         <div class="co-md-4" style="margin-bottom: 30px;">
                             <div class="card" style="width: 20rem;">
-                            <a href="#" style="text-decoration: none;">
+                            <a href="/api/products/single-product/<%= products[i]._id %> " style="text-decoration: none;">
                             <img src="<%=products[i].image%>" alt="..." class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title"><%=products[i].name%></h5>

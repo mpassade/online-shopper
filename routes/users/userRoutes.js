@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport')
 const User = require('./models/User')
+const Product = require('../admin/products/models/Product')
 const {check, validationResult} = require('express-validator')
 const {
   register, updatePassword
 } = require('./controllers/userController')
 const userValidation = require('./middleware/userValidation')
 const {checkLogin, validateLogin} = require('./middleware/checkLogin')
+const {homePgProducts, productText} = require('./homepage-products')
 
 const checkPassword = [
   check('oldPassword', 'Please include a valid password').isLength({min: 6}),
@@ -15,11 +17,39 @@ const checkPassword = [
   check('repeatNewPassword', 'Please include a valid password').isLength({min: 6})
 ]
 
-/* GET users listing. */
+const paginate = (req, res, next) => {
+  const perPage = 6
+  const page = req.params.pageNumber
+  Product.find()
+  .skip(perPage * (page - 1))
+  .limit(perPage)
+  .populate('category')
+  .exec((err, products) => {
+    if (err){
+      return next(err)
+    }
+    Product.countDocuments().exec((err, count) => {
+      if (err){
+        return next(err)
+      }
+      return res.render('main/home-products', {products, pages: Math.ceil(count/perPage),
+        page: +page
+      })
+    })
+  })
+}
+
+
 router.get('/', function(req, res, next) {
-  
-  res.render('main/home');
+  if (req.user){
+    return paginate(req, res, next)
+  }
+  return res.render('main/home', {productText, product: homePgProducts});
 });
+
+router.get('/page/:pageNumber', (req, res, next) => {
+  return paginate(req, res, next)
+})
 
 
 
