@@ -39,7 +39,6 @@ const paginate = (req, res, next) => {
   })
 }
 
-
 router.get('/', function(req, res, next) {
   if (req.user){
     return paginate(req, res, next)
