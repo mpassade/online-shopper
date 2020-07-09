@@ -17,6 +17,9 @@ const {getAllCategories} = require('./routes/admin/categories/utils/getAllCatego
 const userRouter = require('./routes/users/userRoutes');
 const adminRouter = require('./routes/admin/adminRoutes')
 const productRouter = require('./routes/admin/products/productRoutes')
+const cartRouter = require('./routes/carts/cartRoutes')
+
+const cartMiddleware = require('./routes/carts/middleware/cartMiddleware')
 
 const app = express();
 
@@ -62,9 +65,12 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use(cartMiddleware)
 app.use('/api/users', userRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/products', productRouter)
+app.use('/api/cart', cartRouter)
+
 
 
 

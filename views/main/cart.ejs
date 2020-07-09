@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      .bloc_left_price {
+        color: #c01508;
+        text-align: center;
+        font-weight: bold;
+        font-size: 150%;
+      }
+      .category_block li:hover {
+        background-color: #007bff;
+      }
+      .category_block li:hover a {
+        color: #ffffff;
+      }
+      .category_block li a {
+        color: #343a40;
+      }
+      .add_to_cart_block .price {
+        color: #c01508;
+        text-align: center;
+        font-weight: bold;
+        font-size: 200%;
+        margin-bottom: 0;
+      }
+      .add_to_cart_block .price_discounted {
+        color: #343a40;
+        text-align: center;
+        text-decoration: line-through;
+        font-size: 140%;
+      }
+      .product_rassurance {
+        padding: 10px;
+        margin-top: 15px;
+        background: #ffffff;
+        border: 1px solid #6c757d;
+        color: #6c757d;
+      }
+      .product_rassurance .list-inline {
+        margin-bottom: 0;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      .product_rassurance .list-inline li:hover {
+        color: #343a40;
+      }
+      .reviews_product .fa-star {
+        color: gold;
+      }
+      #cart-images{
+          width:100px;
+          height:100px;
+      }
+       .my-jumbotron {
+        position: relative;
+        background: linear-gradient(
+            47deg,
+            rgba(0, 0, 0, 0.8),
+            rgba(0, 176, 0, 0.2)
+          ),
+          url('/images/square.jpg') center center;
+        background-color: #172d1c;
+        width: 100%;
+        background-size: cover;
+        color: #fff;
+        height: 18em;
+      }
+      #cart-user{
+          margin:150px 0 40px 0;
+          color:black
+      }
+    </style>
+    <!--Boostnipp Template for cart https://bootsnipp.com/snippets/ZXKKD -->
+    <title>Online Shopper Cart</title>
+  </head>
+  <body>
+    <% include ../partials/navbar %>
+      <div class="container mb-4">
+        <div class="row">
+        <div class="col-md-12">
+        <h1 id="cart-user">Shopping Cart for: <span> <%=user.profile.name.toUpperCase()%></span></h1>
+        </div>
+          <div class="col-12">
+            <% if (messages.length > 0) { %>
+              <div class="alert alert-success alert-dismissible">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Clo se"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <%= messages %>
+              </div>
+            <% } %>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Available</th>
+                    <th scope="col" class="text-center">Quantity</th>
+                    <th scope="col" class="text-right">Price</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <% if(foundCart!==null){ for(let i = 0; i <
+                    foundCart.items.length; i++){ %>
+                    <td>
+                      <img id="cart-images"
+                        src="<%=foundCart.items[i].item.image%>"
+                      />
+                    </td>
+                    <td><%=foundCart.items[i].item.name%></td>
+                    <td>In stock</td>
+                    <td style="text-align:center">
+                      <%=foundCart.items[i].quantity%>
+                    </td>
+                    <td class="text-right">
+                      $<%=foundCart.items[i].item.price%>
+                    </td>
+                    <td class="text-right">
+                      <form method="post" action="/api/cart/product/remove">
+                        <input type="hidden" name="item" value="<%=foundCart.items[i]._id%>"/>
+                        <input type="hidden" name="price" value="<%=foundCart.items[i].price%>"/>
+                        <button type="submit" class="btn btn-sm btn-danger">
+                      </form>
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <% }}else{%>
+                  <h1>Your Cart Is Empty</h1>
+                  <% } %>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Sub-Total</td>
+                    <td class="text-right">$<%=foundCart.total.toFixed(2)%></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Shipping:</td>
+                    <%if(foundCart.total !== 0.00){%>
+                    <td class="text-right">$5.99</td>
+                    <%}else{%>
+                      <td class="text-right">0.00</td>
+                    <%}%>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><strong>Total</strong></td>
+                      <%if(foundCart.total !== 0.00){%>
+                    <td class="text-right"><strong>$<%=foundCart.total + 5.99%></strong></td>
+                    <%}else{%>
+                      <td class="text-right"><strong>$0.00</strong></td>
+                    <%}%>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col mb-2">
+            <div class="row">
+              <div class="col-sm-12  col-md-6">
+                <button class="btn btn-block btn-light">
+                  Continue Shopping
+                </button>
+              </div>
+              <div class="col-sm-12 col-md-6 text-right">
+                <button class="btn btn-lg btn-block btn-info text-uppercase">
+                  Checkout
+                </button>
+              </div>
+               <div style="margin-top:20px;" class="col-sm-12 col-md-6 offset-md-3 text-right">
+                <button class="btn btn-lg btn-block btn-success text-uppercase">
+                  Pay With Stripe
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% include ../partials/scripts %>
+  </body>
+</html>

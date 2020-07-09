@@ -60,6 +60,14 @@
         ></span
       >
       <% } else { %>
+        <span style="margin: 0 10px;">
+          <a href="/api/cart">
+            <span style="color: #5cb85c;" class="fa-stack has-badge" data-count=<%=cartTotal%>></a>
+              <i style="font-size: 1.1em;" class="fa fa-shopping-cart"></i>
+              <span style="padding-left: 5px;"><%=cartTotal%></span>
+            </span>
+          </a>
+        </span>
         <span style="color:#ee802e">Hello &nbsp;<%= user.profile.name.toUpperCase() %> 
         <a style="color:beige" href="/api/users/logout">Logout</a></span>
       <% } %>

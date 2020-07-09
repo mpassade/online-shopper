@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport')
 const User = require('./models/User')
+const {createUserCart} = require('../carts/controllers/cartController')
 const Product = require('../admin/products/models/Product')
 const {check, validationResult} = require('express-validator')
 const {
@@ -55,7 +56,8 @@ router.get('/page/:pageNumber', (req, res, next) => {
 router.post(
   '/register', 
   userValidation,
-  register
+  register,
+  createUserCart
 )
 
 router.get('/register', (req, res) => {

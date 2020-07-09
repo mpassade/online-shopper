@@ -53,7 +53,7 @@ module.exports = {
             await user.save()
             await req.login(user, (err) => {
                 if (err) return res.status(400).json({confirmation: false, message: err})
-                res.redirect(301, '/api/users')
+                next()
             })
 
             
